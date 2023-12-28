@@ -1,6 +1,7 @@
 const items = document.getElementById('items');
 const templateCard = document.getElementById('template-card');
 const fragment = document.createDocumentFragment()
+let carrito = {};
 
 // Evento que escucha cuando el DOM se ha cargado completamente
 document.addEventListener('DOMContentLoaded', () => {
@@ -45,11 +46,29 @@ const pintarCards = data => {
     // Agregar el fragmento de documento (conteniendo todas las plantillas clonadas) al contenedor
     items.appendChild(fragment);
 };
-
+// Función que se ejecuta al hacer clic en algún elemento del DOM
 const addCarrito = e => {
-    console.log(e.target.classList.contains('btn-dark'));
     if (e.target.classList.contains('btn-dark')) {
-        
+        setCarrito(e.target.parentElement);
     }
+    e.stopPropagation()
+}
+
+// Función para agregar un producto al carrito a partir de un objeto (elemento del DOM)
+const setCarrito = objeto => {
+    // Crear un objeto 'producto' con información del elemento
+    const producto = {
+        id: objeto.querySelector('.btn-dark').dataset.id,
+        title: objeto.querySelector('h5').textContent,
+        precio: objeto.querySelector('p').textContent,
+        cantidad: 1
+    }
+    // Si el producto ya está en el carrito, incrementar la cantidad
+    if (carrito.hasOwnProperty(producto.id)) {
+        producto.cantidad = carrito[producto.id].cantidad +1;
+    }
+    // Actualizar el carrito con el producto (o agregarlo si no existía)
+    carrito[producto.id] = {...producto}
+    console.log(carrito)
 }
 
