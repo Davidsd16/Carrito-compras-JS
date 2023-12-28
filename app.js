@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchData();
 })
 
+items.addEventListener('click', e => {
+    addCarrito(e);
+})
+
 // Función asíncrona para obtener datos desde 'api.json'
 const fetchData = async () => {
     try {
@@ -41,3 +45,11 @@ const pintarCards = data => {
     // Agregar el fragmento de documento (conteniendo todas las plantillas clonadas) al contenedor
     items.appendChild(fragment);
 };
+
+const addCarrito = e => {
+    console.log(e.target.classList.contains('btn-dark'));
+    if (e.target.classList.contains('btn-dark')) {
+        
+    }
+}
+
