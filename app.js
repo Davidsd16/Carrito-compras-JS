@@ -37,12 +37,15 @@ const fetchData = async () => {
 // Función para renderizar tarjetas basadas en los datos proporcionados
 const pintarCards = data => {
     // Iterar sobre cada producto en los datos
+    console.log('data, printCarrito');
+   // console.log(data);
     data.forEach(item => {
         // Clonar el contenido de la plantilla para cada producto
         const clone = templateCard.content.cloneNode(true);
         // Obtener referencias a elementos específicos dentro de la plantilla clonada
         clone.querySelector('h5').textContent = item.title;
         clone.querySelector('p').textContent = item.precio;
+       // clone.querySelector('img').setAttribute('src', producto.thumbnailUrl)
         clone.querySelector('button').dataset.id = item.id;
         // Agregar la plantilla clonada al fragmento de documento
         fragment.appendChild(clone);
