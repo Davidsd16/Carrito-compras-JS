@@ -53,12 +53,9 @@ const pintarCards = data => {
     cards.appendChild(fragment);
 }
 
-// Función que se ejecuta al hacer clic en algún elemento del DOM
+// Función que se ejecuta al hacer clic, Añadimos elemntos al carrito ( setCarrito )
 const addCarrito = e => {
-    console.log('e.target');
-    console.log(e.target);
-
-    if (e.target.classList.contains('btn-dark')) {
+    if (e.target.classList.contains('btn-dark')) {      
         setCarrito(e.target.parentElement);
     }
     e.stopPropagation()
@@ -73,34 +70,45 @@ const setCarrito = objeto => {
         precio: objeto.querySelector('p').textContent,
         cantidad: 1
     }
-
     // Si el item ya está en el carrito, incrementar la cantidad
     if (carrito.hasOwnProperty(item.id)) {
         item.cantidad = carrito[item.id].cantidad +1;
     }
     // Actualizar el carrito con el item (o agregarlo si no existía)
     carrito[item.id] = {...item}
+    console.log(carrito[item.id]);
     pintarCarrito();
 }
 
 // Función para renderizar los items en el carrito
 const pintarCarrito = () => {
     items.innerHTML = ''
-    // Iterar sobre cada item en el carrito
-        Object.values(carrito).forEach(item => {
-            // Clonar la plantilla del carrito para cada item
+    // Iterar sobre cada producto en el carrito
+        Object.values(carrito).forEach(producto => {
+            // Clonar la plantilla del carrito para cada producto
             const clone = templateCarrito.content.cloneNode(true);
             // Configurar el contenido de los elementos
-            clone.querySelector('th').textContent = item.id
-            clone.querySelectorAll('td')[0].textContent = item.title
-            clone.querySelectorAll('td')[1].textContent = item.cantidad
-            clone.querySelector('.btn-info').dataset.id = item.id
-            clone.querySelector('.btn-danger').dataset.id = item.id
-            clone.querySelector('span').dataset.id = item.id
+            clone.querySelector('th').textContent = producto.id;
+            clone.querySelectorAll('td')[0].textContent = producto.title;
+            clone.querySelectorAll('td')[1].textContent = producto.cantidad;
+            clone.querySelector('.btn-info').dataset.id = producto.id;
+            clone.querySelector('.btn-danger').dataset.id = producto.id;
+            clone.querySelector('span').textContent = producto.cantidad * producto.precio;
 
             fragment.appendChild(clone)
         });
         // Agregar el fragmento de documento (conteniendo todas las plantillas clonadas) a la sección de items en el carrito
         items.appendChild(fragment)
+
+        pintarFooter();
 };
+
+const pintarFooter = () => {
+    footer.innerHTML = '';
+    if (Object.keys(carrito).length === 0) {
+        footer.innerHTML = `
+        <th scope="row" colspan="5">Carrito vacío - comience a comprar!</th>
+        `
+    }   
+}
 
