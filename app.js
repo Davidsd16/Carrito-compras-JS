@@ -5,18 +5,6 @@ const templateCard = document.getElementById('template-card');
 const templateFooter = document.getElementById('template-footer');
 const templateCarrito = document.getElementById('template-carrito');
 
-/*
-console.log(cards);
-console.log(items);
-console.log(footer);
-console.log('*********************************');
-console.log(templateCard);
-console.log('**********************************');
-console.log(templateFooter);
-console.log(templateCarrito);
-*/
-
-
 const fragment = document.createDocumentFragment()
 let carrito = {};
 
@@ -30,9 +18,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Resto de tu código...
-
-
 
 cards.addEventListener('click', e => {
     addCarrito(e);
@@ -44,69 +29,27 @@ const fetchData = async () => {
         const res = await fetch('api.json');
         const data = await res.json();
         pintarCards(data);
-
-        console.log('data');
-        console.log(data);
-
     } catch (error) {
         console.log(error);
     }
 }
-/*
+
 // Función para renderizar tarjetas basadas en los datos proporcionados
 const pintarCards = data => {
     // Iterar sobre cada producto en los datos
-    data.forEach(producto => {
-        // Clonar el contenido de la plantilla para cada producto
-        const clone = templateCard.content.cloneNode(true);
-
-        // Obtener referencias a elementos específicos dentro de la plantilla clonada
-        const h5Element = clone.querySelector('h5');
-        const pElement = clone.querySelector('p');
-        const img = clone.querySelector('img').setAttribute('src', producto.thumbnailUrl);
-        const button = clone.querySelector('.btn-dark').dataset.id = producto.id;
-
-      // Agregar la plantilla clonada al fragmento de documento
-        fragment.appendChild(clone);
-    });
-
-
-    // Pintar productos
-const pintarCards = data => {
-    data.forEach(item => {
-        templateCard.querySelector('h5').textContent = item.title
-        templateCard.querySelector('p').textContent = item.precio
-        templateCard.querySelector('button').dataset.id = item.id
-        const clone = templateCard.cloneNode(true)
-        fragment.appendChild(clone)
-    })
-    cards.appendChild(fragment)
-}
-    // Agregar el fragmento de documento (conteniendo todas las plantillas clonadas) al contenedor
-    cards.appendChild(fragment);
-};
-*/
-
-// Pintar productos
-// Pintar productos
-const pintarCards = data => {
-
     data.forEach(item => {
         // Clonar el contenido de la plantilla para cada producto
         const clone = templateCard.content.cloneNode(true);
-
         // Obtener referencias a elementos específicos dentro de la plantilla clonada
         clone.querySelector('h5').textContent = item.title;
         clone.querySelector('p').textContent = item.precio;
         clone.querySelector('button').dataset.id = item.id;
-
+        // Agregar la plantilla clonada al fragmento de documento
         fragment.appendChild(clone);
     });
-
+// Agregar el fragmento de documento (conteniendo todas las plantillas clonadas) al contenedor de tarjetas
     cards.appendChild(fragment);
 }
-
-
 
 // Función que se ejecuta al hacer clic en algún elemento del DOM
 const addCarrito = e => {
@@ -125,8 +68,6 @@ const setCarrito = objeto => {
         precio: objeto.querySelector('p').textContent,
         cantidad: 1
     }
-   // console.log('producto');
-   // console.log(producto);
 
     // Si el producto ya está en el carrito, incrementar la cantidad
     if (carrito.hasOwnProperty(producto.id)) {
@@ -137,21 +78,25 @@ const setCarrito = objeto => {
     pintarCarrito();
 }
 
+// Función para renderizar los productos en el carrito
 const pintarCarrito = () => {
     items.innerHTML = ''
+    // Iterar sobre cada producto en el carrito
         Object.values(carrito).forEach(producto => {
+            // Clonar la plantilla del carrito para cada producto
             const clone = templateCarrito.content.cloneNode(true);
+            // Configurar el contenido de los elementos
             clone.querySelector('th').textContent = producto.id
             clone.querySelectorAll('td')[0].textContent = producto.title
             clone.querySelectorAll('td')[1].textContent = producto.cantidad
             clone.querySelector('.btn-info').dataset.id = producto.id
             clone.querySelector('.btn-danger').dataset.id = producto.id
             clone.querySelector('span').dataset.id = producto.id
-            console.log(templateCarrito);
-           // const clone = templateCarrito.cloneNode(true)
+          //  console.log(templateCarrito);
             fragment.appendChild(clone)
-            console.log(fragment);
+          //  console.log(fragment);
         });
+        // Agregar el fragmento de documento (conteniendo todas las plantillas clonadas) a la sección de items en el carrito
         items.appendChild(fragment)
 };
 
