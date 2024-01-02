@@ -28,11 +28,13 @@ const fetchData = async () => {
     try {
         const res = await fetch('api.json');
         const data = await res.json();
+        console.log('Datos recuperados:', data);
         pintarCards(data);
     } catch (error) {
         console.log(error);
     }
 }
+
 
 // Función para renderizar tarjetas basadas en los datos proporcionados
 const pintarCards = data => {
@@ -80,6 +82,7 @@ const setCarrito = objeto => {
     pintarCarrito();
 }
 
+
 // Función para renderizar los items en el carrito
 const pintarCarrito = () => {
     items.innerHTML = ''
@@ -103,6 +106,7 @@ const pintarCarrito = () => {
         pintarFooter();
 };
 
+
 const pintarFooter = () => {
     footer.innerHTML = '';
     if (Object.keys(carrito).length === 0) {
@@ -111,4 +115,18 @@ const pintarFooter = () => {
         `
     }   
 }
+
+    // sumar cantidad y sumar totales
+    const nCantidad = Object.values(carrito).reduce((acc, { cantidad }) => acc + cantidad, 0)
+    const nPrecio = Object.values(carrito).reduce((acc, {cantidad, precio}) => acc + cantidad * precio ,0)
+    // console.log(nPrecio)
+
+    templateFooter.querySelectorAll('td')[0].textContent = nCantidad
+    templateFooter.querySelector('span').textContent = nPrecio
+
+    const clone = templateFooter.cloneNode(true)
+    fragment.appendChild(clone)
+
+    footer.appendChild(fragment)
+
 
