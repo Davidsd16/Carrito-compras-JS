@@ -116,17 +116,25 @@ const pintarFooter = () => {
     }   
 }
 
-    // sumar cantidad y sumar totales
-    const nCantidad = Object.values(carrito).reduce((acc, { cantidad }) => acc + cantidad, 0)
-    const nPrecio = Object.values(carrito).reduce((acc, {cantidad, precio}) => acc + cantidad * precio ,0)
-    // console.log(nPrecio)
+const nCantidad = Object.values(carrito).reduce((acc, { cantidad }) => acc + cantidad, 0)
+const nPrecio = Object.values(carrito).reduce((acc, {cantidad, precio}) => acc + cantidad * precio ,0)
+//console.log(nPrecio)
+const clone = document.importNode(templateFooter.content, true);
 
-    templateFooter.querySelectorAll('td')[0].textContent = nCantidad
-    templateFooter.querySelector('span').textContent = nPrecio
+// Obtener los elementos dentro del clon
+const cantidadElement = clone.querySelector('td');
+const precioElement = clone.querySelector('span');
 
-    const clone = templateFooter.cloneNode(true)
-    fragment.appendChild(clone)
+if (cantidadElement && precioElement) {
+    cantidadElement.textContent = nCantidad;
+    precioElement.textContent = nPrecio;
 
-    footer.appendChild(fragment)
+    // Agregar el clon al fragmento y luego al DOM
+    fragment.appendChild(clone);
+    footer.appendChild(fragment);
+} else {
+    console.error("No se encontraron elementos TD o SPAN en templateFooter");
+}
+
 
 
