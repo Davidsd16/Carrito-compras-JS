@@ -145,17 +145,46 @@ const pintarFooter = () => {
 }
 
 const btnAccion = e => {
-    console.log('target');
-    console.log(e.target);
-
     // Accion de aumentar contador del carrito
     if (e.target.classList.contains('btn-info')) {
-        console.log([e.target.dataset.id]); // Accede directamente a la propiedad 'id' del dataset
-        // carrito[e.target.dataset.id];
+        const productId = e.target.dataset.id;
+        const producto = carrito[productId];
+
+        // Verificar si el producto ya existe en el carrito
+        if (producto) {
+            producto.cantidad = producto.cantidad + 1;
+            carrito[productId] = { ...producto };
+        }
     }
+
+    // Accion de disminuir contador del carrito
+    if (e.target.classList.contains('btn-danger')) {
+        const productId = e.target.dataset.id;
+        const producto = carrito[productId];
+
+        // Verificar si el producto ya existe en el carrito
+        if (producto) {
+            producto.cantidad = producto.cantidad - 1;
+
+            // Verificar si la cantidad llega a cero para eliminar el producto del carrito
+            if (producto.cantidad === 0) {
+                delete carrito[productId];
+            } else {
+                carrito[productId] = { ...producto };
+            }
+        }
+    }
+
+    // Vuelve a pintar el carrito después de la modificación
+    pintarCarrito();
+
+    // Evitar la propagación del evento
+    e.stopPropagation();
 }
+
 
 items.addEventListener('click', e => {
     btnAccion(e);
 });
+
 
