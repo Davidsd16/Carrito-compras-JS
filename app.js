@@ -23,6 +23,11 @@ cards.addEventListener('click', e => {
     addCarrito(e);
 })
 
+items.addEventListener('click', e => {
+    btnAccion(e);
+
+})
+
 // Función asíncrona para obtener datos desde 'api.json'
 const fetchData = async () => {
     try {
@@ -117,30 +122,35 @@ const pintarFooter = () => {
         return
     }
 
-const nCantidad = Object.values(carrito).reduce((acc, { cantidad }) => acc + cantidad, 0)
-const nPrecio = Object.values(carrito).reduce((acc, {cantidad, precio}) => acc + cantidad * precio ,0)
-//console.log(nPrecio)
-const clone = document.importNode(templateFooter.content, true);
+    const nCantidad = Object.values(carrito).reduce((acc, { cantidad }) => acc + cantidad, 0)
+    const nPrecio = Object.values(carrito).reduce((acc, {cantidad, precio}) => acc + cantidad * precio ,0)
+    //console.log(nPrecio)
+    const clone = document.importNode(templateFooter.content, true);
 
-// Obtener los elementos dentro del clon
-const cantidadElement = clone.querySelector('td');
-const precioElement = clone.querySelector('span');
+    // Obtener los elementos dentro del clon
+    const cantidadElement = clone.querySelector('td');
+    const precioElement = clone.querySelector('span');
 
-if (cantidadElement && precioElement) {
-    cantidadElement.textContent = nCantidad;
-    precioElement.textContent = nPrecio;
+    if (cantidadElement && precioElement) {
+        cantidadElement.textContent = nCantidad;
+        precioElement.textContent = nPrecio;
 
-    // Agregar el clon al fragmento y luego al DOM
-    fragment.appendChild(clone);
-    footer.appendChild(fragment);
-} else {
-    console.error("No se encontraron elementos TD o SPAN en templateFooter");
+        // Agregar el clon al fragmento y luego al DOM
+        fragment.appendChild(clone);
+        footer.appendChild(fragment);
+    } else {
+        console.error("No se encontraron elementos TD o SPAN en templateFooter");
+    }
+
+    const boton = document.querySelector('#vaciar-carrito')
+    boton.addEventListener('click', () => {
+        carrito = {}
+        pintarCarrito()
+    })
 }
 
-const boton = document.querySelector('#vaciar-carrito')
-boton.addEventListener('click', () => {
-    carrito = {}
-    pintarCarrito()
-})
+const btnAccion = e => {
+    console.log('target');
+    console.log(e.target);
 
 }
