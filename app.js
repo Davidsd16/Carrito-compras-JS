@@ -12,6 +12,9 @@ let carrito = {};
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const data = await fetchData();
+        if (localStorage.getElementById('carrito')) {
+            carrito = JSON.parse(localStorage.getElementById('carrito'))
+        }
         pintarCards(data);
     } catch (error) {
         console.error('Error en DOMContentLoaded:', error);
@@ -104,6 +107,8 @@ const pintarCarrito = () => {
         items.appendChild(fragment)
 
         pintarFooter();
+
+        localStorage.setItem('carrito', JSON.stringify(carrito));
 };
 
 
