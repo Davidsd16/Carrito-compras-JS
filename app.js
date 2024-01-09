@@ -23,11 +23,6 @@ cards.addEventListener('click', e => {
     addCarrito(e);
 })
 
-items.addEventListener('click', e => {
-    btnAccion(e);
-
-})
-
 // Función asíncrona para obtener datos desde 'api.json'
 const fetchData = async () => {
     try {
@@ -153,4 +148,14 @@ const btnAccion = e => {
     console.log('target');
     console.log(e.target);
 
+    // Accion de aumentar contador del carrito
+    if (e.target.classList.contains('btn-info')) {
+        console.log([e.target.dataset.id]); // Accede directamente a la propiedad 'id' del dataset
+        // carrito[e.target.dataset.id];
+    }
 }
+
+items.addEventListener('click', e => {
+    btnAccion(e);
+});
+
