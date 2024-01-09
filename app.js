@@ -108,13 +108,14 @@ const pintarCarrito = () => {
 
 
 const pintarFooter = () => {
-    footer.innerHTML = '';
+    footer.innerHTML = ''
+    
     if (Object.keys(carrito).length === 0) {
         footer.innerHTML = `
-        <th scope="row" colspan="5">Carrito vacío - comience a comprar!</th>
+        <th scope="row" colspan="5">Carrito vacío con innerHTML</th>
         `
-    }   
-}
+        return
+    }
 
 const nCantidad = Object.values(carrito).reduce((acc, { cantidad }) => acc + cantidad, 0)
 const nPrecio = Object.values(carrito).reduce((acc, {cantidad, precio}) => acc + cantidad * precio ,0)
@@ -136,5 +137,10 @@ if (cantidadElement && precioElement) {
     console.error("No se encontraron elementos TD o SPAN en templateFooter");
 }
 
+const boton = document.querySelector('#vaciar-carrito')
+boton.addEventListener('click', () => {
+    carrito = {}
+    pintarCarrito()
+})
 
-
+}
